@@ -1,0 +1,21 @@
+{
+  "files": {
+    "main.css": "/static/css/main.7dd73c39.css",
+    "main.js": "/static/js/main.6ac895d1.js",
+    "static/js/512.1b254d8e.chunk.js": "/static/js/512.1b254d8e.chunk.js",
+    "static/media/maldivesVideo.mp4": "/static/media/maldivesVideo.bf007bf8b954cbf9ab59.mp4",
+    "static/media/LoginAndRegisterImg.png": "/static/media/LoginAndRegisterImg.79cd79c98d0b8bd6f718.png",
+    "static/media/DefaultAddImage.png": "/static/media/DefaultAddImage.18d1c29235512983e3a1.png",
+    "static/media/Images_audio.ogg": "/static/media/Images_audio.61b09d835463f409f036.ogg",
+    "static/media/RobertPic.png": "/static/media/RobertPic.58d91a5480b8c62deec9.png",
+    "static/media/logo.svg": "/static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg",
+    "index.html": "/index.html",
+    "main.7dd73c39.css.map": "/static/css/main.7dd73c39.css.map",
+    "main.6ac895d1.js.map": "/static/js/main.6ac895d1.js.map",
+    "512.1b254d8e.chunk.js.map": "/static/js/512.1b254d8e.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.7dd73c39.css",
+    "static/js/main.6ac895d1.js"
+  ]
+}
