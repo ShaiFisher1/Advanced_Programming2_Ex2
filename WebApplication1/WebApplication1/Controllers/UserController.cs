@@ -4,34 +4,34 @@ namespace WebApplication1.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class MessagesController : ControllerBase
+    public class UserController : ControllerBase
     {
         //public IActionResult Index()
         //{
         //  return View();
         //}
 
-        private static List<Message> _messages = new List<Message>() { new Message() { Id = 1,  Date= new DateTime(2022, 05, 22), From=1, Body="Hello", Chat_id=1} ,
-                                                                    new Message() { Id = 2,  Date = new DateTime(2022, 05, 22), From = 0 , Body = "Hey whats up", Chat_id=1},
-                                                                    new Message() { Id = 3,  Date = new DateTime(2022, 05, 22), From = 1 , Body = "I'm good hbu?", Chat_id=1 },
-                                                                    new Message() { Id = 4,  Date = new DateTime(2022, 05, 22), From = 0 , Body = "me too", Chat_id=1 }};
+        private static List<User> _users = new List<User>() { new User() { UserName="Shai Fisher",NickName="shaifisher1",Password="shai1234567", User_Photo="shaiImage"} ,
+                                                              new User() { UserName="Mor Siman Tov",NickName="morsimantov5",Password="mor1234567", User_Photo="morImage"},
+                                                              new User() { UserName="Emma Willson",NickName="emmawillson66",Password="emma1234567", User_Photo="emmaImage" },
+                                                              new User() { UserName="Noa Cohen",NickName="noacohen7",Password="noa1234567", User_Photo="noaImage"} };
         [HttpGet]
-        public IEnumerable<Message> Index() //get all messages list
+        public IEnumerable<User> Index() //get all users list
         {
-            return _messages;
+            return _users;
         }
 
 
-        [HttpGet("{id}")]
-        public Message Details(int? id) // get a specific message by Id
+        [HttpGet("{UserName}")]
+        public User Details(string? UserName) // get a specific User by Id
         {
-            return _messages.Where(x => x.Id == id).FirstOrDefault();
+            return _users.Where(x => x.UserName == UserName).FirstOrDefault();
         }
 
         [HttpPost]
-        public void Create([Bind("Body")] Message message)
+        public void Create([Bind("Body")] User user) // todo
         {
-            _messages.Add(message);
+            _users.Add(user);
         }
 
 
