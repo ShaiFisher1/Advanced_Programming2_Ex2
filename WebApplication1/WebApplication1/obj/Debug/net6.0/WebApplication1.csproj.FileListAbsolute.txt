@@ -25,3 +25,10 @@ C:\Users\adifi\Desktop\University\Second year\AP2_EX2\Advanced_Programming2_Ex2\
 C:\Users\adifi\Desktop\University\Second year\AP2_EX2\Advanced_Programming2_Ex2\WebApplication1\WebApplication1\obj\Debug\net6.0\WebApplication1.pdb
 C:\Users\adifi\Desktop\University\Second year\AP2_EX2\Advanced_Programming2_Ex2\WebApplication1\WebApplication1\obj\Debug\net6.0\WebApplication1.genruntimeconfig.cache
 C:\Users\adifi\Desktop\University\Second year\AP2_EX2\Advanced_Programming2_Ex2\WebApplication1\WebApplication1\obj\Debug\net6.0\ref\WebApplication1.dll
+C:\Users\adifi\Desktop\University\Second year\AP2_EX2\Advanced_Programming2_Ex2\WebApplication1\WebApplication1\bin\Debug\net6.0\Humanizer.dll
+C:\Users\adifi\Desktop\University\Second year\AP2_EX2\Advanced_Programming2_Ex2\WebApplication1\WebApplication1\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.dll
+C:\Users\adifi\Desktop\University\Second year\AP2_EX2\Advanced_Programming2_Ex2\WebApplication1\WebApplication1\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.Abstractions.dll
+C:\Users\adifi\Desktop\University\Second year\AP2_EX2\Advanced_Programming2_Ex2\WebApplication1\WebApplication1\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.Design.dll
+C:\Users\adifi\Desktop\University\Second year\AP2_EX2\Advanced_Programming2_Ex2\WebApplication1\WebApplication1\bin\Debug\net6.0\Microsoft.EntityFrameworkCore.Relational.dll
+C:\Users\adifi\Desktop\University\Second year\AP2_EX2\Advanced_Programming2_Ex2\WebApplication1\WebApplication1\bin\Debug\net6.0\MySqlConnector.dll
+C:\Users\adifi\Desktop\University\Second year\AP2_EX2\Advanced_Programming2_Ex2\WebApplication1\WebApplication1\bin\Debug\net6.0\Pomelo.EntityFrameworkCore.MySql.dll

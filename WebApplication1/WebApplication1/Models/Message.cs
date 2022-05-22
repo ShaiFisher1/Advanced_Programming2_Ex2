@@ -6,6 +6,6 @@ namespace WebApplication1
         public DateTime Date { get; set; } // when the message was sent
         public int From { get; set; } // from which side (0 or 1)
         public string Body { get; set; } //content of the message
-        public int Chat_id { get; set; } // the chat it belongs to
+        public int ChatId { get; set; } // the chat it belongs to
     }
 }

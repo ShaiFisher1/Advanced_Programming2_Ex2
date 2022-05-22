@@ -4,38 +4,35 @@ namespace WebApplication1.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class MessagesController : ControllerBase
+    public class ChatController : ControllerBase
     {
-        //public IActionResult Index()
-        //{
-        //  return View();
-        //}
 
-        private static List<Message> _messages = new List<Message>() { new Message() { Id = 1,  Date= new DateTime(2022, 05, 22), From=1, Body="Hello", Chat_id=1} ,
-                                                                    new Message() { Id = 2,  Date = new DateTime(2022, 05, 22), From = 0 , Body = "Hey whats up", Chat_id=1},
-                                                                    new Message() { Id = 3,  Date = new DateTime(2022, 05, 22), From = 1 , Body = "I'm good hbu?", Chat_id=1 },
-                                                                    new Message() { Id = 4,  Date = new DateTime(2022, 05, 22), From = 0 , Body = "me too", Chat_id=1 }};
+        private static Contact Shai = new Contact() { UserName = "Shai Fisher", NickNameGiven = "shai my friend", Last_Date = new DateTime(2022, 04, 30), Last_Message = "last message shai", ServerAdress = "8000" };
+        private static Contact Mor = new Contact() { UserName = "Mor Siman Tov", NickNameGiven = "mor my bff", Last_Date = new DateTime(2022, 04, 24), Last_Message = "last message mor", ServerAdress = "8000" };
+        private static Contact Emma = new Contact() { UserName = "Emma Willson", NickNameGiven = "emma my sister", Last_Date = new DateTime(2022, 03, 28), Last_Message = "last message emma", ServerAdress = "8000" };
+        
+        private static List<Chat> _chats = new List<Chat>() { new Chat() { Id = 1, UserName="Shai Fisher",Contact=Mor} , // shai has chat with Mor and with Emma
+                                                              new Chat() { Id = 2, UserName="Shai Fisher",Contact=Emma},
+                                                              new Chat() { Id = 3, UserName="Mor Siman Tov",Contact=Shai}, // Mor has chat only with Shai
+                                                              new Chat() { Id = 4, UserName="Emma Willson",Contact=Shai},
+                                                              new Chat() { Id = 5, UserName="Emma Willson",Contact=Mor}}; // Emma has chat with Shai and Mor
         [HttpGet]
-        public IEnumerable<Message> Index() //get all messages list
+        public IEnumerable<Chat> Index() // get all Chats 
         {
-            return _messages;
+            return _chats;
         }
 
 
         [HttpGet("{id}")]
-        public Message Details(int? id) // get a specific message by Id
+        public Chat Details(int? id) // get a specific chat information by Id
         {
-            return _messages.Where(x => x.Id == id).FirstOrDefault();
+            return _chats.Where(x => x.Id == id).FirstOrDefault();
         }
 
         [HttpPost]
-        public void Create([Bind("Body")] Message message)
+        public void Create([Bind("User_id")] Chat chat) // todo not sure what to put in Bind here
         {
-            _messages.Add(message);
+            _chats.Add(chat);
         }
-
-
-
-
     }
 }

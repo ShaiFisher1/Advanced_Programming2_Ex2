@@ -1,5 +1,8 @@
-var builder = WebApplication.CreateBuilder(args);
-
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using WebApplication.Data;
+var builder = Microsoft.AspNetCore.Builder.WebApplication.CreateBuilder(args);
+builder.Services.AddTransient<WebApplicationContext>();
 // Add services to the container.
 
 builder.Services.AddControllers();
@@ -23,3 +26,4 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+

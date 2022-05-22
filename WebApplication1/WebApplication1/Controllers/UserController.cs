@@ -29,7 +29,7 @@ namespace WebApplication1.Controllers
         }
 
         [HttpPost]
-        public void Create([Bind("Body")] User user) // todo
+        public void Create([Bind("UserName")] User user) // todo
         {
             _users.Add(user);
         }
