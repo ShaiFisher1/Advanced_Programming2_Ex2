@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\adifi\\Desktop\\University\\Second year\\AP2_EX2\\Advanced_Programming2_Ex2\\WebApplicationAP2EX2\\WebApplicationAP2EX2\\WebApplicationAP2EX2.csproj": {}
+    "C:\\Projects\\WebApplicationAP2EX2\\Advanced_Programming2_Ex2\\WebApplicationAP2EX2\\WebApplicationAP2EX2\\WebApplicationAP2EX2.csproj": {}
   },
   "projects": {
-    "C:\\Users\\adifi\\Desktop\\University\\Second year\\AP2_EX2\\Advanced_Programming2_Ex2\\WebApplicationAP2EX2\\WebApplicationAP2EX2\\WebApplicationAP2EX2.csproj": {
+    "C:\\Projects\\WebApplicationAP2EX2\\Advanced_Programming2_Ex2\\WebApplicationAP2EX2\\WebApplicationAP2EX2\\WebApplicationAP2EX2.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\adifi\\Desktop\\University\\Second year\\AP2_EX2\\Advanced_Programming2_Ex2\\WebApplicationAP2EX2\\WebApplicationAP2EX2\\WebApplicationAP2EX2.csproj",
+        "projectUniqueName": "C:\\Projects\\WebApplicationAP2EX2\\Advanced_Programming2_Ex2\\WebApplicationAP2EX2\\WebApplicationAP2EX2\\WebApplicationAP2EX2.csproj",
         "projectName": "WebApplicationAP2EX2",
-        "projectPath": "C:\\Users\\adifi\\Desktop\\University\\Second year\\AP2_EX2\\Advanced_Programming2_Ex2\\WebApplicationAP2EX2\\WebApplicationAP2EX2\\WebApplicationAP2EX2.csproj",
-        "packagesPath": "C:\\Users\\adifi\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\adifi\\Desktop\\University\\Second year\\AP2_EX2\\Advanced_Programming2_Ex2\\WebApplicationAP2EX2\\WebApplicationAP2EX2\\obj\\",
+        "projectPath": "C:\\Projects\\WebApplicationAP2EX2\\Advanced_Programming2_Ex2\\WebApplicationAP2EX2\\WebApplicationAP2EX2\\WebApplicationAP2EX2.csproj",
+        "packagesPath": "C:\\Users\\MorSimanTov\\.nuget\\packages\\",
+        "outputPath": "C:\\Projects\\WebApplicationAP2EX2\\Advanced_Programming2_Ex2\\WebApplicationAP2EX2\\WebApplicationAP2EX2\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\adifi\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\MorSimanTov\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -49,15 +49,7 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "frameworkReferences": {
-            "Microsoft.AspNetCore.App": {
-              "privateAssets": "none"
-            },
-            "Microsoft.NETCore.App": {
-              "privateAssets": "all"
-            }
-          },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.201\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.408\\RuntimeIdentifierGraph.json"
         }
       }
     }
