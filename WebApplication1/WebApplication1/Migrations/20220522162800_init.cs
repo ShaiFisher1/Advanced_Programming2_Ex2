@@ -17,19 +17,19 @@ namespace WebApplication1.Migrations
                 name: "Contacts",
                 columns: table => new
                 {
-                    UserName = table.Column<string>(type: "varchar(255)", nullable: false)
+                    id = table.Column<string>(type: "varchar(255)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    NickNameGiven = table.Column<string>(type: "longtext", nullable: true)
+                    name = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Last_Date = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    Last_Message = table.Column<string>(type: "longtext", nullable: true)
+                    server = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    ServerAdress = table.Column<string>(type: "longtext", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4")
+                    last = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    lastdate = table.Column<DateTime>(type: "datetime(6)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Contacts", x => x.UserName);
+                    table.PrimaryKey("PK_Contacts", x => x.id);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -37,17 +37,18 @@ namespace WebApplication1.Migrations
                 name: "Messages",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    Date = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    From = table.Column<int>(type: "int", nullable: false),
-                    Body = table.Column<string>(type: "longtext", nullable: true)
+                    content = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
+                    created = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    sent = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    From = table.Column<int>(type: "int", nullable: false),
                     ChatId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Messages", x => x.Id);
+                    table.PrimaryKey("PK_Messages", x => x.id);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -55,18 +56,16 @@ namespace WebApplication1.Migrations
                 name: "Users",
                 columns: table => new
                 {
-                    UserName = table.Column<string>(type: "varchar(255)", nullable: false)
+                    id = table.Column<string>(type: "varchar(255)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    NickName = table.Column<string>(type: "longtext", nullable: false)
+                    nickname = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    Password = table.Column<string>(type: "longtext", nullable: false)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    User_Photo = table.Column<string>(type: "longtext", nullable: false)
+                    password = table.Column<string>(type: "longtext", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Users", x => x.UserName);
+                    table.PrimaryKey("PK_Users", x => x.id);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -74,28 +73,28 @@ namespace WebApplication1.Migrations
                 name: "Chat",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn),
-                    UserName = table.Column<string>(type: "longtext", nullable: true)
+                    userid = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    ContactUserName = table.Column<string>(type: "varchar(255)", nullable: true)
+                    contactid = table.Column<string>(type: "varchar(255)", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Chat", x => x.Id);
+                    table.PrimaryKey("PK_Chat", x => x.id);
                     table.ForeignKey(
-                        name: "FK_Chat_Contacts_ContactUserName",
-                        column: x => x.ContactUserName,
+                        name: "FK_Chat_Contacts_contactid",
+                        column: x => x.contactid,
                         principalTable: "Contacts",
-                        principalColumn: "UserName");
+                        principalColumn: "id");
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Chat_ContactUserName",
+                name: "IX_Chat_contactid",
                 table: "Chat",
-                column: "ContactUserName");
+                column: "contactid");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

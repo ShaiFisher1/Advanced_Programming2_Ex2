@@ -21,7 +21,7 @@ namespace WebApplication.Data
             //modelBuilder.Entity<User>().HasKey(e => e.Username);
             //modelBuilder.Entity<Message>().HasKey(e => e.Id);
             //modelBuilder.Entity<Rating>().HasKey(e => e.Id);
-            modelBuilder.Entity<Contact>().HasKey(e => new { e.UserName });
+            modelBuilder.Entity<Contact>().HasKey(e => new { e.id });
 
             base.OnModelCreating(modelBuilder);
         }

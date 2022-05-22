@@ -11,7 +11,7 @@ using WebApplication.Data;
 namespace WebApplication1.Migrations
 {
     [DbContext(typeof(WebApplicationContext))]
-    [Migration("20220522144555_init")]
+    [Migration("20220522162800_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -23,97 +23,96 @@ namespace WebApplication1.Migrations
 
             modelBuilder.Entity("WebApplication1.Chat", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<string>("ContactUserName")
+                    b.Property<string>("contactid")
                         .HasColumnType("varchar(255)");
 
-                    b.Property<string>("UserName")
+                    b.Property<string>("userid")
                         .HasColumnType("longtext");
 
-                    b.HasKey("Id");
+                    b.HasKey("id");
 
-                    b.HasIndex("ContactUserName");
+                    b.HasIndex("contactid");
 
                     b.ToTable("Chat");
                 });
 
             modelBuilder.Entity("WebApplication1.Contact", b =>
                 {
-                    b.Property<string>("UserName")
+                    b.Property<string>("id")
                         .HasColumnType("varchar(255)");
 
-                    b.Property<DateTime>("Last_Date")
+                    b.Property<string>("last")
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime>("lastdate")
                         .HasColumnType("datetime(6)");
 
-                    b.Property<string>("Last_Message")
+                    b.Property<string>("name")
                         .HasColumnType("longtext");
 
-                    b.Property<string>("NickNameGiven")
+                    b.Property<string>("server")
                         .HasColumnType("longtext");
 
-                    b.Property<string>("ServerAdress")
-                        .HasColumnType("longtext");
-
-                    b.HasKey("UserName");
+                    b.HasKey("id");
 
                     b.ToTable("Contacts");
                 });
 
             modelBuilder.Entity("WebApplication1.Message", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
-
-                    b.Property<string>("Body")
-                        .HasColumnType("longtext");
 
                     b.Property<int>("ChatId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime(6)");
-
                     b.Property<int>("From")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.Property<string>("content")
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime>("created")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<bool>("sent")
+                        .HasColumnType("tinyint(1)");
+
+                    b.HasKey("id");
 
                     b.ToTable("Messages");
                 });
 
             modelBuilder.Entity("WebApplication1.User", b =>
                 {
-                    b.Property<string>("UserName")
+                    b.Property<string>("id")
                         .HasColumnType("varchar(255)");
 
-                    b.Property<string>("NickName")
+                    b.Property<string>("nickname")
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<string>("Password")
+                    b.Property<string>("password")
                         .IsRequired()
                         .HasColumnType("longtext");
 
-                    b.Property<string>("User_Photo")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.HasKey("UserName");
+                    b.HasKey("id");
 
                     b.ToTable("Users");
                 });
 
             modelBuilder.Entity("WebApplication1.Chat", b =>
                 {
-                    b.HasOne("WebApplication1.Contact", "Contact")
+                    b.HasOne("WebApplication1.Contact", "contact")
                         .WithMany()
-                        .HasForeignKey("ContactUserName");
+                        .HasForeignKey("contactid");
 
-                    b.Navigation("Contact");
+                    b.Navigation("contact");
                 });
 #pragma warning restore 612, 618
         }

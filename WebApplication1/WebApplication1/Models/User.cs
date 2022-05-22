@@ -5,16 +5,13 @@ namespace WebApplication1
     public class User
     {
         [Key]
-        public string UserName { get; set; }
+        public string id { get; set; } // the username
 
         [Required]
-        public string NickName { get; set; } // nickname given in registration
+        public string nickname { get; set; } // nickname given in registration
 
         [DataType(DataType.Password)]
         [Required]
-        public string Password { get; set; }
-
-        [Required]
-        public string? User_Photo { get; set; }
+        public string password { get; set; }
     }
 }

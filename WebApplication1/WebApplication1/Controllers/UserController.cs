@@ -11,10 +11,10 @@ namespace WebApplication1.Controllers
         //  return View();
         //}
 
-        private static List<User> _users = new List<User>() { new User() { UserName="Shai Fisher",NickName="shaifisher1",Password="shai1234567", User_Photo="shaiImage"} ,
-                                                              new User() { UserName="Mor Siman Tov",NickName="morsimantov5",Password="mor1234567", User_Photo="morImage"},
-                                                              new User() { UserName="Emma Willson",NickName="emmawillson66",Password="emma1234567", User_Photo="emmaImage" },
-                                                              new User() { UserName="Noa Cohen",NickName="noacohen7",Password="noa1234567", User_Photo="noaImage"} };
+        private static List<User> _users = new List<User>() { new User() { id="Shai Fisher",nickname="shaifisher1",password="shai1234567"} ,
+                                                              new User() { id="Mor Siman Tov",nickname="morsimantov5",password="mor1234567"},
+                                                              new User() { id="Emma Willson",nickname="emmawillson66",password="emma1234567" },
+                                                              new User() { id="Noa Cohen",nickname="noacohen7",password="noa1234567"} };
         [HttpGet]
         public IEnumerable<User> Index() //get all users list
         {
@@ -25,7 +25,7 @@ namespace WebApplication1.Controllers
         [HttpGet("{UserName}")]
         public User Details(string? UserName) // get a specific User by Id
         {
-            return _users.Where(x => x.UserName == UserName).FirstOrDefault();
+            return _users.Where(x => x.id == UserName).FirstOrDefault();
         }
 
         [HttpPost]
