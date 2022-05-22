@@ -11,10 +11,10 @@ namespace WebApplication1.Controllers
         //  return View();
         //}
 
-        private static List<Message> _messages = new List<Message>() { new Message() { Id = 1,  Date= new DateTime(2022, 05, 22), From=1, Body="Hello", ChatId=1} ,
-                                                                       new Message() { Id = 2,  Date = new DateTime(2022, 05, 22), From = 0 , Body = "Hey whats up", ChatId=1},
-                                                                       new Message() { Id = 3,  Date = new DateTime(2022, 05, 22), From = 1 , Body = "I'm good hbu?", ChatId=1 },
-                                                                       new Message() { Id = 4,  Date = new DateTime(2022, 05, 22), From = 0 , Body = "me too", ChatId=1 }};
+        private static List<Message> _messages = new List<Message>() { new Message() { id = 1,  created= new DateTime(2022, 05, 22), From=1, content="Hello", ChatId=1,sent=true} ,
+                                                                       new Message() { id = 2,  created = new DateTime(2022, 05, 22), From = 0 , content = "Hey whats up", ChatId=1,sent=true},
+                                                                       new Message() { id = 3,  created = new DateTime(2022, 05, 22), From = 1 , content = "I'm good hbu?", ChatId=1,sent=true },
+                                                                       new Message() { id = 4,  created = new DateTime(2022, 05, 22), From = 0 , content = "me too", ChatId=1,sent=true }};
         [HttpGet]
         public IEnumerable<Message> Index() //get all messages list
         {
@@ -25,11 +25,11 @@ namespace WebApplication1.Controllers
         [HttpGet("{id}")]
         public Message Details(int? id) // get a specific message by Id
         {
-            return _messages.Where(x => x.Id == id).FirstOrDefault();
+            return _messages.Where(x => x.id == id).FirstOrDefault();
         }
 
         [HttpPost]
-        public void Create([Bind("Body")] Message message) // Add a new message 
+        public void Create([Bind("content")] Message message) // Add a new message 
         {
             _messages.Add(message);
         }
