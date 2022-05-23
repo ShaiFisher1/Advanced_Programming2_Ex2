@@ -16,7 +16,7 @@ namespace WebApplication1.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.1")
+                .HasAnnotation("ProductVersion", "6.0.5")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("WebApplication1.Chat", b =>
@@ -55,6 +55,9 @@ namespace WebApplication1.Migrations
                     b.Property<string>("server")
                         .HasColumnType("longtext");
 
+                    b.Property<string>("username")
+                        .HasColumnType("longtext");
+
                     b.HasKey("id");
 
                     b.ToTable("Contacts");
@@ -67,9 +70,6 @@ namespace WebApplication1.Migrations
                         .HasColumnType("int");
 
                     b.Property<int>("ChatId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("From")
                         .HasColumnType("int");
 
                     b.Property<string>("content")

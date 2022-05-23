@@ -12,47 +12,47 @@ namespace WebApplication1.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class MessagesController : ControllerBase
+    public class ChatsController : ControllerBase
     {
         private readonly WebApplicationContext _context;
 
-        public MessagesController(WebApplicationContext context)
+        public ChatsController(WebApplicationContext context)
         {
             _context = context;
         }
 
-        // GET: api/Messages
+        // GET: api/Chats
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Message>>> GetMessages()
+        public async Task<ActionResult<IEnumerable<Chat>>> GetChat()
         {
-            return await _context.Messages.ToListAsync();
+            return await _context.Chat.ToListAsync();
         }
 
-        // GET: api/Messages/5
+        // GET: api/Chats/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Message>> GetMessage(int id)
+        public async Task<ActionResult<Chat>> GetChat(int id)
         {
-            var message = await _context.Messages.FindAsync(id);
+            var chat = await _context.Chat.FindAsync(id);
 
-            if (message == null)
+            if (chat == null)
             {
                 return NotFound();
             }
 
-            return message;
+            return chat;
         }
 
-        // PUT: api/Messages/5
+        // PUT: api/Chats/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutMessage(int id, Message message)
+        public async Task<IActionResult> PutChat(int id, Chat chat)
         {
-            if (id != message.id)
+            if (id != chat.id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(message).State = EntityState.Modified;
+            _context.Entry(chat).State = EntityState.Modified;
 
             try
             {
@@ -60,7 +60,7 @@ namespace WebApplication1.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!MessageExists(id))
+                if (!ChatExists(id))
                 {
                     return NotFound();
                 }
@@ -73,36 +73,36 @@ namespace WebApplication1.Controllers
             return NoContent();
         }
 
-        // POST: api/Messages
+        // POST: api/Chats
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Message>> PostMessage(Message message)
+        public async Task<ActionResult<Chat>> PostChat(Chat chat)
         {
-            _context.Messages.Add(message);
+            _context.Chat.Add(chat);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetMessage", new { id = message.id }, message);
+            return CreatedAtAction("GetChat", new { id = chat.id }, chat);
         }
 
-        // DELETE: api/Messages/5
+        // DELETE: api/Chats/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteMessage(int id)
+        public async Task<IActionResult> DeleteChat(int id)
         {
-            var message = await _context.Messages.FindAsync(id);
-            if (message == null)
+            var chat = await _context.Chat.FindAsync(id);
+            if (chat == null)
             {
                 return NotFound();
             }
 
-            _context.Messages.Remove(message);
+            _context.Chat.Remove(chat);
             await _context.SaveChangesAsync();
 
             return NoContent();
         }
 
-        private bool MessageExists(int id)
+        private bool ChatExists(int id)
         {
-            return _context.Messages.Any(e => e.id == id);
+            return _context.Chat.Any(e => e.id == id);
         }
     }
 }
