@@ -22,10 +22,15 @@ namespace WebApplication1.Controllers
         }
 
         // GET: api/Contacts
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Contact>>> GetContacts()
+       // [HttpGet]
+       // public async Task<ActionResult<IEnumerable<Contact>>> GetContacts()
+        //{
+        //    return await _context.Contacts.ToListAsync();
+        //}
+
+        public async Task<ActionResult<IEnumerable<Contact>>> GetContacts(string id)
         {
-            return await _context.Contacts.ToListAsync();
+            return await _context.Contacts.Where(contact => contact.username == id).ToListAsync();
         }
 
         // GET: api/Contacts/5
@@ -76,8 +81,9 @@ namespace WebApplication1.Controllers
         // POST: api/Contacts
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Contact>> PostContact(Contact contact)
+        public async Task<ActionResult<Contact>> PostContact(string id, string name, string server, string username)
         {
+            Contact contact = new Contact() { id = id, name = name, server = server, username = username };
             _context.Contacts.Add(contact);
             try
             {

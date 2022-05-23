@@ -9,6 +9,7 @@ namespace WebApplication1
         public string server { get; set; }
         public string last { get; set; } // the last message that was sent
         public DateTime lastdate { get; set; } // when last message was sent
+        public string username { get; set; } // the username of the contact
         
     }
 }
