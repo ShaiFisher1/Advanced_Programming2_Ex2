@@ -2,167 +2,107 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using WebApplication.Data;
 using WebApplication1;
-using WebApplication1.Data;
 
 namespace WebApplication1.Controllers
 {
+    [Route("api/[controller]")]
     [ApiController]
-    [Route("[controller]")]
-    public class MessagesController : Controller
+    public class MessagesController : ControllerBase
     {
-        private readonly WebApplication1Context _context;
+        private readonly WebApplicationContext _context;
 
-        public MessagesController(WebApplication1Context context)
+        public MessagesController(WebApplicationContext context)
         {
             _context = context;
         }
 
-        // GET: Messages
+        // GET: api/Messages
         [HttpGet]
-        public async Task<IActionResult> Index()
+        public async Task<ActionResult<IEnumerable<Message>>> GetMessages()
         {
-              return View(await _context.Message.ToListAsync());
+            return await _context.Messages.ToListAsync();
         }
 
-        // GET: Messages/Details/5
+        // GET: api/Messages/5
         [HttpGet("{id}")]
-        public async Task<IActionResult> Details(int? id)
+        public async Task<ActionResult<Message>> GetMessage(int id)
         {
-            if (id == null || _context.Message == null)
-            {
-                return NotFound();
-            }
+            var message = await _context.Messages.FindAsync(id);
 
-            var message = await _context.Message
-                .FirstOrDefaultAsync(m => m.id == id);
             if (message == null)
             {
                 return NotFound();
             }
 
-            return View(message);
+            return message;
         }
 
-        // GET: Messages/Create
-        [HttpGet]
-        public IActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Messages/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("id,content,created,sent,From,ChatId")] Message message)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(message);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(message);
-        }
-
-        // GET: Messages/Edit/5
+        // PUT: api/Messages/5
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null || _context.Message == null)
-            {
-                return NotFound();
-            }
-
-            var message = await _context.Message.FindAsync(id);
-            if (message == null)
-            {
-                return NotFound();
-            }
-            return View(message);
-        }
-
-        // POST: Messages/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("id,content,created,sent,From,ChatId")] Message message)
+        public async Task<IActionResult> PutMessage(int id, Message message)
         {
             if (id != message.id)
             {
-                return NotFound();
+                return BadRequest();
             }
 
-            if (ModelState.IsValid)
+            _context.Entry(message).State = EntityState.Modified;
+
+            try
             {
-                try
-                {
-                    _context.Update(message);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!MessageExists(message.id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                await _context.SaveChangesAsync();
             }
-            return View(message);
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!MessageExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
         }
 
-        // GET: Messages/Delete/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int? id)
+        // POST: api/Messages
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [HttpPost]
+        public async Task<ActionResult<Message>> PostMessage(Message message)
         {
-            if (id == null || _context.Message == null)
-            {
-                return NotFound();
-            }
+            _context.Messages.Add(message);
+            await _context.SaveChangesAsync();
 
-            var message = await _context.Message
-                .FirstOrDefaultAsync(m => m.id == id);
+            return CreatedAtAction("GetMessage", new { id = message.id }, message);
+        }
+
+        // DELETE: api/Messages/5
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteMessage(int id)
+        {
+            var message = await _context.Messages.FindAsync(id);
             if (message == null)
             {
                 return NotFound();
             }
 
-            return View(message);
-        }
-
-        // POST: Messages/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            if (_context.Message == null)
-            {
-                return Problem("Entity set 'WebApplication1Context.Message'  is null.");
-            }
-            var message = await _context.Message.FindAsync(id);
-            if (message != null)
-            {
-                _context.Message.Remove(message);
-            }
-            
+            _context.Messages.Remove(message);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+
+            return NoContent();
         }
 
         private bool MessageExists(int id)
         {
-          return _context.Message.Any(e => e.id == id);
+            return _context.Messages.Any(e => e.id == id);
         }
     }
 }

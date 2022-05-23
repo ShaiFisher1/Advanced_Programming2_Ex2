@@ -1,9 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using WebApplication1.Data;
+using WebApplication.Data;
 var builder = Microsoft.AspNetCore.Builder.WebApplication.CreateBuilder(args);
-builder.Services.AddDbContext<WebApplication1Context>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("WebApplication1Context") ?? throw new InvalidOperationException("Connection string 'WebApplication1Context' not found.")));
+builder.Services.AddTransient<WebApplicationContext>();
 // Add services to the container.
 
 builder.Services.AddControllers();

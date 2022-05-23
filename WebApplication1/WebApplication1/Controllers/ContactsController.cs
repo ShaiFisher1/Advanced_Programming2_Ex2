@@ -2,168 +2,121 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using WebApplication.Data;
 using WebApplication1;
-using WebApplication1.Data;
 
 namespace WebApplication1.Controllers
 {
-    [ApiController]
     [Route("api/[controller]")]
-    public class ContactsController : Controller
+    [ApiController]
+    public class ContactsController : ControllerBase
     {
-        private readonly WebApplication1Context _context;
+        private readonly WebApplicationContext _context;
 
-        public ContactsController(WebApplication1Context context)
+        public ContactsController(WebApplicationContext context)
         {
             _context = context;
         }
 
-        // GET: Contacts
+        // GET: api/Contacts
         [HttpGet]
-        public async Task<IActionResult> Index()
+        public async Task<ActionResult<IEnumerable<Contact>>> GetContacts()
         {
-              return View(await _context.Contact.ToListAsync());
+            return await _context.Contacts.ToListAsync();
         }
 
-
-        // GET: Contacts/Details/5
+        // GET: api/Contacts/5
         [HttpGet("{id}")]
-        public async Task<IActionResult> Details(string id)
+        public async Task<ActionResult<Contact>> GetContact(string id)
         {
-            if (id == null || _context.Contact == null)
-            {
-                return NotFound();
-            }
+            var contact = await _context.Contacts.FindAsync(id);
 
-            var contact = await _context.Contact
-                .FirstOrDefaultAsync(m => m.id == id);
             if (contact == null)
             {
                 return NotFound();
             }
 
-            return View(contact);
+            return contact;
         }
 
-        // GET: Contacts/Create
-        [HttpGet]
-        public IActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: Contacts/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("id,name,server,last,lastdate")] Contact contact)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(contact);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(contact);
-        }
-
-        // GET: Contacts/Edit/5
+        // PUT: api/Contacts/5
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> Edit(string id)
-        {
-            if (id == null || _context.Contact == null)
-            {
-                return NotFound();
-            }
-
-            var contact = await _context.Contact.FindAsync(id);
-            if (contact == null)
-            {
-                return NotFound();
-            }
-            return View(contact);
-        }
-
-        // POST: Contacts/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("id,name,server,last,lastdate")] Contact contact)
+        public async Task<IActionResult> PutContact(string id, Contact contact)
         {
             if (id != contact.id)
             {
-                return NotFound();
+                return BadRequest();
             }
 
-            if (ModelState.IsValid)
+            _context.Entry(contact).State = EntityState.Modified;
+
+            try
             {
-                try
-                {
-                    _context.Update(contact);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ContactExists(contact.id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                await _context.SaveChangesAsync();
             }
-            return View(contact);
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!ContactExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
         }
 
-        // GET: Contacts/Delete/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(string id)
+        // POST: api/Contacts
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [HttpPost]
+        public async Task<ActionResult<Contact>> PostContact(Contact contact)
         {
-            if (id == null || _context.Contact == null)
+            _context.Contacts.Add(contact);
+            try
             {
-                return NotFound();
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateException)
+            {
+                if (ContactExists(contact.id))
+                {
+                    return Conflict();
+                }
+                else
+                {
+                    throw;
+                }
             }
 
-            var contact = await _context.Contact
-                .FirstOrDefaultAsync(m => m.id == id);
+            return CreatedAtAction("GetContact", new { id = contact.id }, contact);
+        }
+
+        // DELETE: api/Contacts/5
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteContact(string id)
+        {
+            var contact = await _context.Contacts.FindAsync(id);
             if (contact == null)
             {
                 return NotFound();
             }
 
-            return View(contact);
-        }
-
-        // POST: Contacts/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(string id)
-        {
-            if (_context.Contact == null)
-            {
-                return Problem("Entity set 'WebApplication1Context.Contact'  is null.");
-            }
-            var contact = await _context.Contact.FindAsync(id);
-            if (contact != null)
-            {
-                _context.Contact.Remove(contact);
-            }
-            
+            _context.Contacts.Remove(contact);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+
+            return NoContent();
         }
 
         private bool ContactExists(string id)
         {
-          return _context.Contact.Any(e => e.id == id);
+            return _context.Contacts.Any(e => e.id == id);
         }
     }
 }
