@@ -7,9 +7,9 @@ namespace WebApplication1.Controllers
     public class ChatController : ControllerBase
     {
 
-        private static Contact Shai = new Contact() { id = "Shai Fisher", name = "shai my friend", lastdate = new DateTime(2022, 04, 30), last = "last message shai", server = "8000" };
-        private static Contact Mor = new Contact() { id = "Mor Siman Tov", name = "mor my bff", lastdate = new DateTime(2022, 04, 24), last = "last message mor", server = "8000" };
-        private static Contact Emma = new Contact() { id = "Emma Willson", name = "emma my sister", lastdate = new DateTime(2022, 03, 28), last = "last message emma", server = "8000" };
+        private static Contact Shai = new Contact() { id = "Shai Fisher", name = "shai my friend", lastdate = new DateTime(2022, 04, 30).ToString(), last = "last message shai", server = "8000" };
+        private static Contact Mor = new Contact() { id = "Mor Siman Tov", name = "mor my bff", lastdate = new DateTime(2022, 04, 24).ToString(), last = "last message mor", server = "8000" };
+        private static Contact Emma = new Contact() { id = "Emma Willson", name = "emma my sister", lastdate = new DateTime(2022, 03, 28).ToString(), last = "last message emma", server = "8000" };
         
         private static List<Chat> _chats = new List<Chat>() { new Chat() { id = 1, userid="Shai Fisher",contact=Mor} , // shai has chat with Mor and with Emma
                                                               new Chat() { id = 2, userid="Shai Fisher",contact=Emma},

@@ -3,7 +3,7 @@
 namespace WebApplication1.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class MessagesController : ControllerBase
     {
         //public IActionResult Index()

@@ -1,6 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using WebApplication.Data;
 using Microsoft.EntityFrameworkCore;
+using System;
+using WebApplication1.Services;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace WebApplication1.Controllers
 {
@@ -8,7 +12,7 @@ namespace WebApplication1.Controllers
     [Route("api/[controller]")]
     public class ContactsController : ControllerBase
     {
-
+      //    private IContactService contactService;
           private readonly WebApplicationContext _context;
           public ContactsController(WebApplicationContext context)
            {
@@ -24,6 +28,8 @@ namespace WebApplication1.Controllers
         }
 
 
+
+
      //   [HttpGet("{username}")]
       //  public Contact Details(string? username) // get a specific Contact by Id
       //  {
@@ -31,9 +37,9 @@ namespace WebApplication1.Controllers
      //   }
 
      //   [HttpPost]
-     //   public void Create([Bind("UserName")] Contact contact)
-     //   {
-     //       _contacts.Add(contact);
+      //  public void Create([Bind("UserName")] Contact contact)
+      //  {
+      //      _contacts.Add(contact);
      //   }
 
 
