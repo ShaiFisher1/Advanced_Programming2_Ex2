@@ -128,6 +128,12 @@ namespace WebApplication1.Controllers
 
         // messges functions:
 
+        public class NewMessageObj
+        {
+            public string? userName { get; set; }
+            public string? content { get; set; }
+        }
+
         // get all messages given a user and a contact --- id is the contact 
         [HttpGet("{id}/Messages"), ActionName("Messages")]
         public async Task<ActionResult<IEnumerable<Message>>> getMessages(string userName, string id)
@@ -140,11 +146,11 @@ namespace WebApplication1.Controllers
 
         // post create a new message between contact and current user --- id is the contact
         [HttpPost("{id}/Messages"), ActionName("Messages")]
-        public async Task<ActionResult<Message>> PostMessage(string userName, string id, string content)
+        public async Task<ActionResult<Message>> PostMessage( string id, [FromBody] NewMessageObj newmsgobj)
         {
-            Contact currentContact = _context.Contacts.Where(e => e.id == id && e.username == userName).FirstOrDefault();
+            Contact currentContact = _context.Contacts.Where(e => e.id == id && e.username == newmsgobj.userName).FirstOrDefault();
             DateTime msgDate = DateTime.Now; // todo tostring? 
-            int chatId = _context.Chat.Where(c => c.userid == userName && c.contact.id == id).FirstOrDefault().id;
+            int chatId = _context.Chat.Where(c => c.userid == newmsgobj.userName && c.contact.id == id).FirstOrDefault().id;
             int followingId;
             if(_context.Messages.Count() !=0)
             {
@@ -154,7 +160,7 @@ namespace WebApplication1.Controllers
             {
                 followingId = 1;
             }
-            Message newmsg = new Message() { id=followingId,content=content, created= msgDate, sent=false, ChatId=chatId};
+            Message newmsg = new Message() { id=followingId,content= newmsgobj.content, created= msgDate, sent=false, ChatId=chatId};
             currentContact.last = newmsg.content;
             currentContact.lastdate = newmsg.created;
             _context.Messages.Add(newmsg);
@@ -163,7 +169,7 @@ namespace WebApplication1.Controllers
         }
 
         // get a specific message details --- id is contact and id2 is message Id
-        [HttpGet("{id}/Messages{id2}"), ActionName("Messages")]
+        [HttpGet("{id}/Messages/{id2}"), ActionName("Messages")]
         public async Task<ActionResult<Message>> GetMessage(string userName, string id, int id2)
         {
             User currentUser = _context.Users.Where (u => u.id == userName).FirstOrDefault();
@@ -174,14 +180,20 @@ namespace WebApplication1.Controllers
 
         // put update a message --- id is contact and id2 is message Id
 
-        [HttpPut("{id}/Messages{id2}"), ActionName("Messages")]
-        public async Task<IActionResult> PutMessage(string userName, string content, string id, int id2)
-        {
+        [HttpPut("{id}/Messages/{id2}"), ActionName("Messages")]
+        public async Task<IActionResult> PutMessage(string id, int id2, [FromBody] NewMessageObj newmsgobj)
+        {   
             //todo what if the message edited is the last message of the contact
             Message message = _context.Messages.Where(m => m.id == id2).FirstOrDefault();
+            Chat currentChat = _context.Chat.Where(c => c.id == message.ChatId).FirstOrDefault();
+            Contact currentContact = _context.Contacts.Where(e => e.id == id && e.username == newmsgobj.userName).FirstOrDefault();
+            if (currentChat.contact.id!=currentContact.id) // todo change if we change primary keys of contact
+            {
+                return BadRequest();
+            }
             if (message != null)
             {
-                message.content = content;
+                message.content = newmsgobj.content;
                 message.created = DateTime.Now;
                 await _context.SaveChangesAsync();
                 return StatusCode(204);
@@ -195,8 +207,8 @@ namespace WebApplication1.Controllers
             
 
         // delete a message --- id is contact and id2 is message Id
-        [HttpDelete("{id}/Messages{id2}"), ActionName("Messages")]
-        public async Task<ActionResult> DeleteMessage(string userName, string id, int id2)
+        [HttpDelete("{id}/Messages/{id2}"), ActionName("Messages")]
+        public async Task<ActionResult> DeleteMessage([FromBody] string userName, string id, int id2)
         {
             User currentUser = _context.Users.Where(u => u.id == userName).FirstOrDefault();
             Contact currentContact = _context.Contacts.Where(e => e.id == id && e.username == userName).FirstOrDefault();
@@ -210,11 +222,6 @@ namespace WebApplication1.Controllers
             await _context.SaveChangesAsync();
             return NoContent();
         }
-
-        
-
-
-        
 
     }
 }
