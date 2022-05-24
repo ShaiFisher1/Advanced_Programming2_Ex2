@@ -2,8 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using WebApplication1.Data;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
 namespace WebApplication1.Controllers
 {
     [Route("api/[controller]")]
@@ -16,7 +14,7 @@ namespace WebApplication1.Controllers
         {
             _context = context;
         }
-        public class Body
+        public class bodyInvitation
         {
             public string? from { get; set; }
             public string? to { get; set; }
@@ -25,7 +23,7 @@ namespace WebApplication1.Controllers
 
         // POST api/<InvitationsController>
         [HttpPost]
-        public async Task<ActionResult> Index([FromBody] Body value)
+        public async Task<ActionResult> Index([FromBody] bodyInvitation value)
         {
             var id = value.to;
             var user = await _context.Users.FindAsync(id);
@@ -34,8 +32,8 @@ namespace WebApplication1.Controllers
             {
                 return NotFound();
             }
-            Contact newcontact = new Contact() { contactid = value.from, username = value.to, name = value.from, server = value.server };
-            _context.Contacts.Add(newcontact);
+            Contact newContact = new Contact() { contactid = value.from, username = value.to, name = value.from, server = value.server };
+            _context.Contacts.Add(newContact);
             await _context.SaveChangesAsync();
             return StatusCode(201);
         }

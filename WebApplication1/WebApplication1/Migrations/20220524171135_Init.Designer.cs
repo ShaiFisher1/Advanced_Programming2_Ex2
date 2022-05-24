@@ -11,7 +11,7 @@ using WebApplication1.Data;
 namespace WebApplication1.Migrations
 {
     [DbContext(typeof(WebApplicationContext))]
-    [Migration("20220524100256_Init")]
+    [Migration("20220524171135_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -28,17 +28,12 @@ namespace WebApplication1.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("contactid")
-                        .HasColumnType("varchar(255)");
-
-                    b.Property<string>("contactusername")
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("userid")
                         .HasColumnType("longtext");
 
                     b.HasKey("id");
-
-                    b.HasIndex("contactid", "contactusername");
 
                     b.ToTable("Chat");
                 });
@@ -107,15 +102,6 @@ namespace WebApplication1.Migrations
                     b.HasKey("id");
 
                     b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("WebApplication1.Chat", b =>
-                {
-                    b.HasOne("WebApplication1.Contact", "contact")
-                        .WithMany()
-                        .HasForeignKey("contactid", "contactusername");
-
-                    b.Navigation("contact");
                 });
 #pragma warning restore 612, 618
         }

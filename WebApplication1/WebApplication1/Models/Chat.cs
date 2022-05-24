@@ -4,6 +4,6 @@ namespace WebApplication1
     {
         public int id { get; set; } // id of the chat
         public string userid { get; set; } // the user that the chat belongs to
-        public Contact contact { get; set; } // the contact that the chat is with
+        public string contactid { get; set; } // the contact that the chat is with
     }
 }
