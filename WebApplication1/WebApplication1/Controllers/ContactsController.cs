@@ -22,22 +22,17 @@ namespace WebApplication1.Controllers
         }
 
         // GET: api/Contacts
-       // [HttpGet]
-       // public async Task<ActionResult<IEnumerable<Contact>>> GetContacts()
-        //{
-        //    return await _context.Contacts.ToListAsync();
-        //}
-
-        public async Task<ActionResult<IEnumerable<Contact>>> GetContacts(string id)
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Contact>>> GetContacts(string username)
         {
-            return await _context.Contacts.Where(contact => contact.username == id).ToListAsync();
+            return await _context.Contacts.Where(contact => contact.username == username).ToListAsync();
         }
 
         // GET: api/Contacts/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Contact>> GetContact(string id)
+        public async Task<ActionResult<Contact>> GetContact(string id, string username)
         {
-            var contact = await _context.Contacts.FindAsync(id);
+            var contact = await _context.Contacts.FindAsync(id, username);
 
             if (contact == null)
             {
@@ -83,6 +78,7 @@ namespace WebApplication1.Controllers
         [HttpPost]
         public async Task<ActionResult<Contact>> PostContact(string id, string name, string server, string username)
         {
+
             Contact contact = new Contact() { id = id, name = name, server = server, username = username };
             _context.Contacts.Add(contact);
             try
@@ -106,9 +102,10 @@ namespace WebApplication1.Controllers
 
         // DELETE: api/Contacts/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteContact(string id)
+        public async Task<IActionResult> DeleteContact(string id, [FromBody] string username)
         {
-            var contact = await _context.Contacts.FindAsync(id);
+            var contact = await _context.Contacts.FindAsync(id, username);
+            //var contact = await _context.Contacts.FindAsync(id);
             if (contact == null)
             {
                 return NotFound();

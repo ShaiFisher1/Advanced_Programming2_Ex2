@@ -55,6 +55,9 @@ namespace WebApplication1.Migrations
                     b.Property<string>("server")
                         .HasColumnType("longtext");
 
+                    b.Property<string>("username")
+                        .HasColumnType("longtext");
+
                     b.HasKey("id");
 
                     b.ToTable("Contacts");
