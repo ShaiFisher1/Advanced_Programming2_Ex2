@@ -21,6 +21,39 @@ namespace WebApplication1.Controllers
             _context = context;
         }
 
+        //public class userBody
+        //{
+        //    public string? id { get; set; }
+        //    public string? nickname { get; set; }
+        //    public string? password { get; set; }
+        //}
+
+        //[HttpGet]
+        //public async Task<IActionResult> Login(string userName)
+        //{
+        //    var user = await _context.Users.FindAsync(userName);
+        //    if (user == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    return Ok();
+        //}
+
+        //[HttpPost]
+        //public async Task<IActionResult> Register([FromBody] userBody user)
+        //{
+        //    var userToCreate = await _context.Users.FindAsync(user.id);
+        //    if (userToCreate == null)
+        //    {
+        //        userToCreate = new User { id = user.id, nickname = user.nickname, password = user.password };
+        //        _context.Users.Add(userToCreate);
+        //        await _context.SaveChangesAsync();
+        //        return Ok();
+        //    }
+        //    return BadRequest();
+        //}
+
+
         // GET: api/Users
         [HttpGet]
         public async Task<ActionResult<IEnumerable<User>>> GetUsers()

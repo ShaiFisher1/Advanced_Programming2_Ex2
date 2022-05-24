@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebApplication.Data;
+using WebApplication1.Controllers;
 using WebApplication1;
 
 namespace WebApplication1.Controllers
@@ -148,8 +149,20 @@ namespace WebApplication1.Controllers
         [HttpPost("{id}/Messages"), ActionName("Messages")]
         public async Task<ActionResult<Message>> PostMessage( string id, [FromBody] NewMessageObj newmsgobj)
         {
-            Contact currentContact = _context.Contacts.Where(e => e.id == id && e.username == newmsgobj.userName).FirstOrDefault();
-            DateTime msgDate = DateTime.Now; // todo tostring? 
+            var currentContact = _context.Contacts.Where(e => e.id == id && e.username == newmsgobj.userName).FirstOrDefault();
+            if (currentContact == null)
+            {   
+                return NotFound();
+            }
+            DateTime msgDate = DateTime.Now; // todo string? 
+
+            if (_context.Chat.Where(c => c.userid == newmsgobj.userName && c.contact.id == id).FirstOrDefault() == null)
+            {
+                int newChatId = _context.Chat.Max(c => c.id) + 1;
+                Chat chat = new Chat() { id = newChatId, contact = currentContact, userid = newmsgobj.userName };
+                _context.Chat.Add(chat);
+                await _context.SaveChangesAsync();
+            }
             int chatId = _context.Chat.Where(c => c.userid == newmsgobj.userName && c.contact.id == id).FirstOrDefault().id;
             int followingId;
             if(_context.Messages.Count() !=0)
