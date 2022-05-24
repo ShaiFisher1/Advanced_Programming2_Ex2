@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using WebApplication.Data;
-using WebApplication1.Controllers;
-using WebApplication1;
+using WebApplication1.Data;
 
 namespace WebApplication1.Controllers
 {
@@ -21,44 +14,66 @@ namespace WebApplication1.Controllers
         {
             _context = context;
         }
-
-        // GET: api/Contacts
-        // [HttpGet]
-        // public async Task<ActionResult<IEnumerable<Contact>>> GetContacts()
-        //{
-        //    return await _context.Contacts.ToListAsync();
-        //}
-        [HttpGet("{id}")]
-        public async Task<ActionResult<IEnumerable<Contact>>> GetContacts(string id)
+        public class newContact
         {
-            return await _context.Contacts.Where(contact => contact.username == id).ToListAsync();
+            public string? contactid { get; set; }
+            public string? username { get; set; }
+            public string? name { get; set; }
+            public string? server { get; set; }
+        }
+
+        public class editedContact
+        {
+            public string? username { get; set; }
+            public string? name { get; set; }
+            public string? server { get; set; }
         }
 
 
-        // GET: api/Contacts/5
-        //[HttpGet("{id}")]
-        //public async Task<ActionResult<Contact>> GetContact(string id)
-        //{
-        //    var contact = await _context.Contacts.FindAsync(id);
-
-        //    if (contact == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return contact;
-        //}
-
-        // PUT: api/Contacts/5
-        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutContact(string id, Contact contact)
+        // get all contacts of current user
+        // GET: api/Contacts
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<Contact>>> GetContacts(string username)
         {
-            if (id != contact.id)
+
+            try
+            {
+                return await _context.Contacts.Where(contact => contact.username == username).ToListAsync();
+            }
+            catch
             {
                 return BadRequest();
             }
+        }
 
+        // get detailes of contact with a specific id
+        // GET: api/Contacts/5
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Contact>> GetContact(string id, string username)
+        {
+            var contact = await _context.Contacts.FindAsync(id, username);
+
+            if (contact == null)
+            {
+                return NotFound();
+            }
+
+            return contact;
+        }
+
+        // edit a contact of the current user acorrding to a specific contact id
+        // PUT: api/Contacts/5
+        // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutContact(string id, [FromBody] editedContact editedContact)
+        {
+            var contact = await _context.Contacts.FindAsync(id, editedContact.username);
+            //if (id != contact.contactid)
+            //{
+            //    return BadRequest();
+            //}
+            contact.name = editedContact.name;
+            contact.server = editedContact.server;
             _context.Entry(contact).State = EntityState.Modified;
 
             try
@@ -80,37 +95,44 @@ namespace WebApplication1.Controllers
             return NoContent();
         }
 
+        // add a new contact to the contacts of the current user
         // POST: api/Contacts
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        //[HttpPost]
-        //public async Task<ActionResult<Contact>> PostContact(string id, string name, string server, string username)
-        //{
-        //    Contact contact = new Contact() { id = id, name = name, server = server, username = username };
-        //    _context.Contacts.Add(contact);
-        //    try
-        //    {
-        //        await _context.SaveChangesAsync();
-        //    }
-        //    catch (DbUpdateException)
-        //    {
-        //        if (ContactExists(contact.id))
-        //        {
-        //            return Conflict();
-        //        }
-        //        else
-        //        {
-        //            throw;
-        //        }
-        //    }
+        [HttpPost]
+        public async Task<ActionResult> PostContact([FromBody] newContact newContact)
+        {
+            if (newContact.contactid == newContact.username)   // if contact is the same as the user
+            {
+                return BadRequest();
+            }
+            Contact contact = new Contact() { contactid = newContact.contactid, username = newContact.username, name = newContact.name, server = newContact.server };
+            _context.Contacts.Add(contact);
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateException)
+            {
+                if (ContactExists(contact.contactid))
+                {
+                    return Conflict();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+            return StatusCode(201);
+            //return CreatedAtAction("GetContact", new { id = contact.contactid }, contact);
+        }
 
-        //    return CreatedAtAction("GetContact", new { id = contact.id }, contact);
-        //}
-
+        // delete a contact of the current user acorrding to a specific contact id
         // DELETE: api/Contacts/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteContact(string id)
+        public async Task<IActionResult> DeleteContact(string id, [FromBody] string username)
         {
-            var contact = await _context.Contacts.FindAsync(id);
+            var contact = await _context.Contacts.FindAsync(id, username);
+            //var contact = await _context.Contacts.FindAsync(id);
             if (contact == null)
             {
                 return NotFound();
@@ -124,11 +146,11 @@ namespace WebApplication1.Controllers
 
         private bool ContactExists(string id)
         {
-            return _context.Contacts.Any(e => e.id == id);
+            return _context.Contacts.Any(e => e.contactid == id);
         }
 
-        // messges functions:
 
+        // messges functions:
         public class NewMessageObj
         {
             public string? userName { get; set; }
@@ -140,40 +162,40 @@ namespace WebApplication1.Controllers
         public async Task<ActionResult<IEnumerable<Message>>> getMessages(string userName, string id)
         {
             User currentUser = _context.Users.Where(u => u.id == userName).FirstOrDefault();
-            Contact currentcontact = _context.Contacts.Where(e => e.id == id && e.username==userName).FirstOrDefault();
-            Chat wantedChat = _context.Chat.Where(c => c.userid == currentUser.id && c.contact == id).FirstOrDefault();
+            Contact currentcontact = _context.Contacts.Where(e => e.contactid == id && e.username == userName).FirstOrDefault();
+            Chat wantedChat = _context.Chat.Where(c => c.userid == currentUser.id && c.contactid == id).FirstOrDefault();
             return await _context.Messages.Where(e => e.ChatId == wantedChat.id).ToListAsync();
         }
 
         // post create a new message between contact and current user --- id is the contact
         [HttpPost("{id}/Messages"), ActionName("Messages")]
-        public async Task<ActionResult<Message>> PostMessage( string id, [FromBody] NewMessageObj newmsgobj)
+        public async Task<ActionResult<Message>> PostMessage(string id, [FromBody] NewMessageObj newmsgobj)
         {
-            var currentContact = _context.Contacts.Where(e => e.id == id && e.username == newmsgobj.userName).FirstOrDefault();
+            var currentContact = _context.Contacts.Where(e => e.contactid == id && e.username == newmsgobj.userName).FirstOrDefault();
             if (currentContact == null)
-            {   
+            {
                 return NotFound();
             }
             DateTime msgDate = DateTime.Now; // todo string? 
 
-            if (_context.Chat.Where(c => c.userid == newmsgobj.userName && c.contact == id).FirstOrDefault() == null)
+            if (_context.Chat.Where(c => c.userid == newmsgobj.userName && c.contactid == id).FirstOrDefault() == null)
             {
                 int newChatId = _context.Chat.Max(c => c.id) + 1;
-                Chat chat = new Chat() { id = newChatId, contact = currentContact.id, userid = newmsgobj.userName };
+                Chat chat = new Chat() { id = newChatId, contactid = currentContact.contactid, userid = newmsgobj.userName };
                 _context.Chat.Add(chat);
                 await _context.SaveChangesAsync();
             }
-            int chatId = _context.Chat.Where(c => c.userid == newmsgobj.userName && c.contact == id).FirstOrDefault().id;
+            int chatId = _context.Chat.Where(c => c.userid == newmsgobj.userName && c.contactid == id).FirstOrDefault().id;
             int followingId;
-            if(_context.Messages.Count() !=0)
+            if (_context.Messages.Count() != 0)
             {
-                followingId = _context.Messages.Max(e => e.id)+1;
+                followingId = _context.Messages.Max(e => e.id) + 1;
             }
             else
             {
                 followingId = 1;
             }
-            Message newmsg = new Message() { id=followingId,content= newmsgobj.content, created= msgDate, sent=false, ChatId=chatId};
+            Message newmsg = new Message() { id = followingId, content = newmsgobj.content, created = msgDate, sent = false, ChatId = chatId };
             currentContact.last = newmsg.content;
             currentContact.lastdate = newmsg.created;
             _context.Messages.Add(newmsg);
@@ -185,22 +207,22 @@ namespace WebApplication1.Controllers
         [HttpGet("{id}/Messages/{id2}"), ActionName("Messages")]
         public async Task<ActionResult<Message>> GetMessage(string userName, string id, int id2)
         {
-            User currentUser = _context.Users.Where (u => u.id == userName).FirstOrDefault();
-            Contact currentContact = _context.Contacts.Where(e => e.id == id && e.username == userName).FirstOrDefault();
-            Chat wantedChat = _context.Chat.Where(c => c.userid == currentUser.id && c.contact == id).FirstOrDefault();
-            return _context.Messages.Where(m => m.ChatId == wantedChat.id && m.id==id2).FirstOrDefault();
+            User currentUser = _context.Users.Where(u => u.id == userName).FirstOrDefault();
+            Contact currentContact = _context.Contacts.Where(e => e.contactid == id && e.username == userName).FirstOrDefault();
+            Chat wantedChat = _context.Chat.Where(c => c.userid == currentUser.id && c.contactid == id).FirstOrDefault();
+            return _context.Messages.Where(m => m.ChatId == wantedChat.id && m.id == id2).FirstOrDefault();
         }
 
         // put update a message --- id is contact and id2 is message Id
 
         [HttpPut("{id}/Messages/{id2}"), ActionName("Messages")]
         public async Task<IActionResult> PutMessage(string id, int id2, [FromBody] NewMessageObj newmsgobj)
-        {   
+        {
             //todo what if the message edited is the last message of the contact
             Message message = _context.Messages.Where(m => m.id == id2).FirstOrDefault();
             Chat currentChat = _context.Chat.Where(c => c.id == message.ChatId).FirstOrDefault();
-            Contact currentContact = _context.Contacts.Where(e => e.id == id && e.username == newmsgobj.userName).FirstOrDefault();
-            if (currentChat.contact!=currentContact.id) // todo change if we change primary keys of contact
+            Contact currentContact = _context.Contacts.Where(e => e.contactid == id && e.username == newmsgobj.userName).FirstOrDefault();
+            if (currentChat.contactid != currentContact.contactid) // todo change if we change primary keys of contact
             {
                 return BadRequest();
             }
@@ -217,17 +239,15 @@ namespace WebApplication1.Controllers
             }
         }
 
-            
-
         // delete a message --- id is contact and id2 is message Id
         [HttpDelete("{id}/Messages/{id2}"), ActionName("Messages")]
         public async Task<ActionResult> DeleteMessage([FromBody] string userName, string id, int id2)
         {
             User currentUser = _context.Users.Where(u => u.id == userName).FirstOrDefault();
-            Contact currentContact = _context.Contacts.Where(e => e.id == id && e.username == userName).FirstOrDefault();
-            Chat wantedChat = _context.Chat.Where(c => c.userid == currentUser.id && c.contact == id).FirstOrDefault();
+            Contact currentContact = _context.Contacts.Where(e => e.contactid == id && e.username == userName).FirstOrDefault();
+            Chat wantedChat = _context.Chat.Where(c => c.userid == currentUser.id && c.contactid == id).FirstOrDefault();
             Message currentMessage = _context.Messages.Where(m => m.ChatId == wantedChat.id && m.id == id2).FirstOrDefault();
-            if(currentMessage == null)
+            if (currentMessage == null)
             {
                 return NotFound();
             }
@@ -235,6 +255,5 @@ namespace WebApplication1.Controllers
             await _context.SaveChangesAsync();
             return NoContent();
         }
-
     }
 }

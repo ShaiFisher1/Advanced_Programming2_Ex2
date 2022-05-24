@@ -3,7 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using WebApplication.Data;
+using WebApplication1.Data;
 
 #nullable disable
 
@@ -26,27 +26,28 @@ namespace WebApplication1.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("contactid")
-                        .HasColumnType("varchar(255)");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("userid")
                         .HasColumnType("longtext");
 
                     b.HasKey("id");
 
-                    b.HasIndex("contactid");
-
                     b.ToTable("Chat");
                 });
 
             modelBuilder.Entity("WebApplication1.Contact", b =>
                 {
-                    b.Property<string>("id")
+                    b.Property<string>("contactid")
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<string>("username")
                         .HasColumnType("varchar(255)");
 
                     b.Property<string>("last")
                         .HasColumnType("longtext");
 
-                    b.Property<DateTime>("lastdate")
+                    b.Property<DateTime?>("lastdate")
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("name")
@@ -55,10 +56,7 @@ namespace WebApplication1.Migrations
                     b.Property<string>("server")
                         .HasColumnType("longtext");
 
-                    b.Property<string>("username")
-                        .HasColumnType("longtext");
-
-                    b.HasKey("id");
+                    b.HasKey("contactid", "username");
 
                     b.ToTable("Contacts");
                 });
@@ -102,15 +100,6 @@ namespace WebApplication1.Migrations
                     b.HasKey("id");
 
                     b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("WebApplication1.Chat", b =>
-                {
-                    b.HasOne("WebApplication1.Contact", "contact")
-                        .WithMany()
-                        .HasForeignKey("contactid");
-
-                    b.Navigation("contact");
                 });
 #pragma warning restore 612, 618
         }
