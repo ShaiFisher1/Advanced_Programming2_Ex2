@@ -25,28 +25,28 @@ namespace WebApplication1.Controllers
         [HttpPost]
         public async Task<ActionResult> Index([FromBody] bodyTransfer value)
         {
-            var id = value.to;   // user id
-            var contactid = value.from;
-            var user = await _context.Users.FindAsync(id);
+            string id = value.to;   // user id
+            string contactid = value.from; // contact
+            User user = _context.Users.Where(u => u.id == id).FirstOrDefault();
 
             if (user == null)
             {
+
                 return NotFound();
             }
 
-            var contact = await _context.Contacts.FindAsync(id, contactid);
-
+            Contact contact = _context.Contacts.Where(c => c.contactid == contactid).FirstOrDefault();
             if (contact == null)
             {
                 return NotFound();
             }
-            //if (_context.Chat.Where(c => c.userid == id && c.contactid == contactid).FirstOrDefault() == null)
-            //{
-            //    int newChatId = _context.Chat.Max(c => c.id) + 1;
-            //    Chat chat = new Chat() { id = newChatId, contactid = contactid, userid = id };
-            //    _context.Chat.Add(chat);
-            //    await _context.SaveChangesAsync();
-            //}
+            if (_context.Chat.Where(c => c.userid == id && c.contactid == contactid).FirstOrDefault() == null)
+            {
+                int newChatId = _context.Chat.Max(c => c.id) + 1;
+                Chat chat = new Chat() { id = newChatId, contactid = contactid, userid = id };
+                _context.Chat.Add(chat);
+                await _context.SaveChangesAsync();
+            }
 
             int followingId;
 
@@ -61,7 +61,9 @@ namespace WebApplication1.Controllers
 
             int chatId = _context.Chat.Where(c => c.userid == id && c.contactid == contactid).FirstOrDefault().id;
             DateTime msgDate = DateTime.Now;
-            Message newMessage = new Message() { id = followingId, content = value.content, created = msgDate, ChatId = chatId };
+            Message newMessage = new Message() { id = followingId, content = value.content, sent = true, created = msgDate, ChatId = chatId };
+            contact.last = newMessage.content;
+            contact.lastdate = newMessage.created;
             _context.Messages.Add(newMessage);
             await _context.SaveChangesAsync();
             return StatusCode(201);
