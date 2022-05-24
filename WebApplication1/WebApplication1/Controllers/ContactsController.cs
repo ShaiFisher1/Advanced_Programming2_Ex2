@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using WebApplication.Data;
-using WebApplication1;
+using WebApplication1.Data;
 
 namespace WebApplication1.Controllers
 {
@@ -20,14 +14,39 @@ namespace WebApplication1.Controllers
         {
             _context = context;
         }
+        public class newContact
+        {
+            public string? contactid { get; set; }
+            public string? username { get; set; }
+            public string? name { get; set; }
+            public string? server { get; set; }
+        }
 
+        public class editedContact
+        {
+            public string? username { get; set; }
+            public string? name { get; set; }
+            public string? server { get; set; }
+        }
+
+
+        // get all contacts of current user
         // GET: api/Contacts
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Contact>>> GetContacts(string username)
         {
-            return await _context.Contacts.Where(contact => contact.username == username).ToListAsync();
+
+            try
+            {
+                return await _context.Contacts.Where(contact => contact.username == username).ToListAsync();
+            }
+            catch
+            {
+                return BadRequest();
+            }
         }
 
+        // get detailes of contact with a specific id
         // GET: api/Contacts/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Contact>> GetContact(string id, string username)
@@ -42,16 +61,19 @@ namespace WebApplication1.Controllers
             return contact;
         }
 
+        // edit a contact of the current user acorrding to a specific contact id
         // PUT: api/Contacts/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutContact(string id, Contact contact)
+        public async Task<IActionResult> PutContact(string id, [FromBody] editedContact editedContact)
         {
-            if (id != contact.id)
-            {
-                return BadRequest();
-            }
-
+            var contact = await _context.Contacts.FindAsync(id, editedContact.username);
+            //if (id != contact.contactid)
+            //{
+            //    return BadRequest();
+            //}
+            contact.name = editedContact.name;
+            contact.server = editedContact.server;
             _context.Entry(contact).State = EntityState.Modified;
 
             try
@@ -73,13 +95,17 @@ namespace WebApplication1.Controllers
             return NoContent();
         }
 
+        // add a new contact to the contacts of the current user
         // POST: api/Contacts
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Contact>> PostContact(string id, string name, string server, string username)
+        public async Task<ActionResult> PostContact([FromBody] newContact newContact)
         {
-
-            Contact contact = new Contact() { id = id, name = name, server = server, username = username };
+            if (newContact.contactid == newContact.username)   // if contact is the same as the user
+            {
+                return BadRequest();
+            }
+            Contact contact = new Contact() { contactid = newContact.contactid, username = newContact.username, name = newContact.name, server = newContact.server };
             _context.Contacts.Add(contact);
             try
             {
@@ -87,7 +113,7 @@ namespace WebApplication1.Controllers
             }
             catch (DbUpdateException)
             {
-                if (ContactExists(contact.id))
+                if (ContactExists(contact.contactid))
                 {
                     return Conflict();
                 }
@@ -96,10 +122,11 @@ namespace WebApplication1.Controllers
                     throw;
                 }
             }
-
-            return CreatedAtAction("GetContact", new { id = contact.id }, contact);
+            return StatusCode(201);
+            //return CreatedAtAction("GetContact", new { id = contact.contactid }, contact);
         }
 
+        // delete a contact of the current user acorrding to a specific contact id
         // DELETE: api/Contacts/5
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteContact(string id, [FromBody] string username)
@@ -119,7 +146,7 @@ namespace WebApplication1.Controllers
 
         private bool ContactExists(string id)
         {
-            return _context.Contacts.Any(e => e.id == id);
+            return _context.Contacts.Any(e => e.contactid == id);
         }
     }
 }

@@ -17,9 +17,9 @@ namespace WebApplication1.Migrations
                 name: "Contacts",
                 columns: table => new
                 {
-                    id = table.Column<string>(type: "varchar(255)", nullable: false)
+                    contactid = table.Column<string>(type: "varchar(255)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    username = table.Column<string>(type: "longtext", nullable: true)
+                    username = table.Column<string>(type: "varchar(255)", nullable: false)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     name = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
@@ -27,11 +27,11 @@ namespace WebApplication1.Migrations
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     last = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
-                    lastdate = table.Column<DateTime>(type: "datetime(6)", nullable: false)
+                    lastdate = table.Column<DateTime>(type: "datetime(6)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Contacts", x => x.id);
+                    table.PrimaryKey("PK_Contacts", x => new { x.contactid, x.username });
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
@@ -79,23 +79,25 @@ namespace WebApplication1.Migrations
                     userid = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
                     contactid = table.Column<string>(type: "varchar(255)", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    contactusername = table.Column<string>(type: "varchar(255)", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4")
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Chat", x => x.id);
                     table.ForeignKey(
-                        name: "FK_Chat_Contacts_contactid",
-                        column: x => x.contactid,
+                        name: "FK_Chat_Contacts_contactid_contactusername",
+                        columns: x => new { x.contactid, x.contactusername },
                         principalTable: "Contacts",
-                        principalColumn: "id");
+                        principalColumns: new[] { "contactid", "username" });
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Chat_contactid",
+                name: "IX_Chat_contactid_contactusername",
                 table: "Chat",
-                column: "contactid");
+                columns: new[] { "contactid", "contactusername" });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

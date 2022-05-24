@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using WebApplication1;
 
-namespace WebApplication.Data
+namespace WebApplication1.Data
 {
     public class WebApplicationContext : DbContext
     {
@@ -18,10 +18,10 @@ namespace WebApplication.Data
         {
             // Configuring the Name property as the primary
             // key of the Items table
-            //modelBuilder.Entity<User>().HasKey(e => e.Username);
-            //modelBuilder.Entity<Message>().HasKey(e => e.Id);
+            //modelBuilder.Entity<User>().HasKey(e => e.id);
+            //modelBuilder.Entity<Message>().HasKey(e => e.id);
             //modelBuilder.Entity<Rating>().HasKey(e => e.Id);
-            modelBuilder.Entity<Contact>().HasKey(e => new { e.id });
+            modelBuilder.Entity<Contact>().HasKey(e => new { e.contactid, e.username });
 
             base.OnModelCreating(modelBuilder);
         }
