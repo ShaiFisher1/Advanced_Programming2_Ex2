@@ -13,5 +13,7 @@ namespace WebApplication1
         [DataType(DataType.Password)]
         [Required]
         public string password { get; set; }
+
+        public string server { get; set; } // the server address of the user
     }
 }
