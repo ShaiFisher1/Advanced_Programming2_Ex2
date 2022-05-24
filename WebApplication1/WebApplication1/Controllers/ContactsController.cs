@@ -141,7 +141,7 @@ namespace WebApplication1.Controllers
         {
             User currentUser = _context.Users.Where(u => u.id == userName).FirstOrDefault();
             Contact currentcontact = _context.Contacts.Where(e => e.id == id && e.username==userName).FirstOrDefault();
-            Chat wantedChat = _context.Chat.Where(c => c.userid == currentUser.id && c.contact.id == id).FirstOrDefault();
+            Chat wantedChat = _context.Chat.Where(c => c.userid == currentUser.id && c.contact == id).FirstOrDefault();
             return await _context.Messages.Where(e => e.ChatId == wantedChat.id).ToListAsync();
         }
 
@@ -156,14 +156,14 @@ namespace WebApplication1.Controllers
             }
             DateTime msgDate = DateTime.Now; // todo string? 
 
-            if (_context.Chat.Where(c => c.userid == newmsgobj.userName && c.contact.id == id).FirstOrDefault() == null)
+            if (_context.Chat.Where(c => c.userid == newmsgobj.userName && c.contact == id).FirstOrDefault() == null)
             {
                 int newChatId = _context.Chat.Max(c => c.id) + 1;
-                Chat chat = new Chat() { id = newChatId, contact = currentContact, userid = newmsgobj.userName };
+                Chat chat = new Chat() { id = newChatId, contact = currentContact.id, userid = newmsgobj.userName };
                 _context.Chat.Add(chat);
                 await _context.SaveChangesAsync();
             }
-            int chatId = _context.Chat.Where(c => c.userid == newmsgobj.userName && c.contact.id == id).FirstOrDefault().id;
+            int chatId = _context.Chat.Where(c => c.userid == newmsgobj.userName && c.contact == id).FirstOrDefault().id;
             int followingId;
             if(_context.Messages.Count() !=0)
             {
@@ -187,7 +187,7 @@ namespace WebApplication1.Controllers
         {
             User currentUser = _context.Users.Where (u => u.id == userName).FirstOrDefault();
             Contact currentContact = _context.Contacts.Where(e => e.id == id && e.username == userName).FirstOrDefault();
-            Chat wantedChat = _context.Chat.Where(c => c.userid == currentUser.id && c.contact.id == id).FirstOrDefault();
+            Chat wantedChat = _context.Chat.Where(c => c.userid == currentUser.id && c.contact == id).FirstOrDefault();
             return _context.Messages.Where(m => m.ChatId == wantedChat.id && m.id==id2).FirstOrDefault();
         }
 
@@ -200,7 +200,7 @@ namespace WebApplication1.Controllers
             Message message = _context.Messages.Where(m => m.id == id2).FirstOrDefault();
             Chat currentChat = _context.Chat.Where(c => c.id == message.ChatId).FirstOrDefault();
             Contact currentContact = _context.Contacts.Where(e => e.id == id && e.username == newmsgobj.userName).FirstOrDefault();
-            if (currentChat.contact.id!=currentContact.id) // todo change if we change primary keys of contact
+            if (currentChat.contact!=currentContact.id) // todo change if we change primary keys of contact
             {
                 return BadRequest();
             }
@@ -225,7 +225,7 @@ namespace WebApplication1.Controllers
         {
             User currentUser = _context.Users.Where(u => u.id == userName).FirstOrDefault();
             Contact currentContact = _context.Contacts.Where(e => e.id == id && e.username == userName).FirstOrDefault();
-            Chat wantedChat = _context.Chat.Where(c => c.userid == currentUser.id && c.contact.id == id).FirstOrDefault();
+            Chat wantedChat = _context.Chat.Where(c => c.userid == currentUser.id && c.contact == id).FirstOrDefault();
             Message currentMessage = _context.Messages.Where(m => m.ChatId == wantedChat.id && m.id == id2).FirstOrDefault();
             if(currentMessage == null)
             {
