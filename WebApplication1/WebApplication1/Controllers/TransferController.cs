@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebApplication1.Data;
+using Microsoft.AspNetCore.SignalR;
+using WebApplication1.Hubs;
 
 namespace WebApplication1.Controllers
 {
@@ -9,10 +11,12 @@ namespace WebApplication1.Controllers
     public class TransferController : ControllerBase
     {
         private readonly WebApplicationContext _context;
+        private readonly IHubContext<WebApplicationHub> _hubContext;
 
-        public TransferController(WebApplicationContext context)
+        public TransferController(WebApplicationContext context, IHubContext<WebApplicationHub> HubContext)
         {
             _context = context;
+            _hubContext = HubContext;
         }
         public class bodyTransfer
         {
@@ -84,6 +88,7 @@ namespace WebApplication1.Controllers
                 
             }
             await _context.SaveChangesAsync();
+            await _hubContext.Clients.Group(id).SendAsync("refresh");
             return StatusCode(201);
         }
     }
