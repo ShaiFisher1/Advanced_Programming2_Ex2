@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "akUHsjO6qnU0+5+bdJc8dETXj96qPZhlLK5vja2jH2HzvTCQ7i1N7po9ljjzkUFrrDijvEo88YA9EBaJJ7qg7w==",
+  "dgSpecHash": "bqVYnOfsGac5NyuTWeSiV/QNtFmcfj7tIps9fU3dw5WhiQvwQDKM37mIvFC3qEoztM0tb3HcLDhCkcYOjhfMcQ==",
   "success": true,
-  "projectFilePath": "C:\\Users\\MorSimanTov\\source\\repos\\MyWebApplication\\MyWebApplication\\MyWebApplication.csproj",
+  "projectFilePath": "C:\\Projects\\WebApplicationAP2EX2\\Advanced_Programming2_Ex2\\MyWebApplication\\MyWebApplication\\MyWebApplication.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\MorSimanTov\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
     "C:\\Users\\MorSimanTov\\.nuget\\packages\\messagepack\\2.1.152\\messagepack.2.1.152.nupkg.sha512",

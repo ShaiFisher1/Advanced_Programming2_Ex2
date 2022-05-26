@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.SignalR;
 using WebApplication1.Data;
 
 namespace WebApplication1.Controllers
@@ -66,6 +67,7 @@ namespace WebApplication1.Controllers
             contact.lastdate = newMessage.created;
             _context.Messages.Add(newMessage);
             await _context.SaveChangesAsync();
+            await hubContext.Clients.Group(id).SendAsync("refresh");
             return StatusCode(201);
         }
     }
