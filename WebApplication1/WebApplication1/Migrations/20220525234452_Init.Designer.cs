@@ -11,7 +11,7 @@ using WebApplication1.Data;
 namespace WebApplication1.Migrations
 {
     [DbContext(typeof(WebApplicationContext))]
-    [Migration("20220524183521_Init")]
+    [Migration("20220525234452_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -97,6 +97,9 @@ namespace WebApplication1.Migrations
 
                     b.Property<string>("password")
                         .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("server")
                         .HasColumnType("longtext");
 
                     b.HasKey("id");

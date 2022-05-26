@@ -177,15 +177,26 @@ namespace WebApplication1.Controllers
                 return NotFound();
             }
             DateTime msgDate = DateTime.Now; // todo string? 
-
+            int newChatId;
             if (_context.Chat.Where(c => c.userid == newmsgobj.userName && c.contactid == id).FirstOrDefault() == null)
             {
-                int newChatId = _context.Chat.Max(c => c.id) + 1;
+                if (!_context.Chat.Any())
+                {
+                    newChatId = 0;
+                }
+                else
+                {
+                    newChatId = _context.Chat.Max(c => c.id) + 1;
+                }
                 Chat chat = new Chat() { id = newChatId, contactid = currentContact.contactid, userid = newmsgobj.userName };
                 _context.Chat.Add(chat);
                 await _context.SaveChangesAsync();
             }
-            int chatId = _context.Chat.Where(c => c.userid == newmsgobj.userName && c.contactid == id).FirstOrDefault().id;
+            else
+            {
+                newChatId = _context.Chat.Where(c => c.userid == newmsgobj.userName && c.contactid == id).FirstOrDefault().id;
+            }
+            
             int followingId;
             if (_context.Messages.Count() != 0)
             {
@@ -195,7 +206,7 @@ namespace WebApplication1.Controllers
             {
                 followingId = 1;
             }
-            Message newmsg = new Message() { id = followingId, content = newmsgobj.content, created = msgDate, sent = false, ChatId = chatId };
+            Message newmsg = new Message() { id = followingId, content = newmsgobj.content, created = msgDate, sent = false, ChatId = newChatId };
             currentContact.last = newmsg.content;
             currentContact.lastdate = newmsg.created;
             _context.Messages.Add(newmsg);

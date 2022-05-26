@@ -97,6 +97,9 @@ namespace WebApplication1.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<string>("server")
+                        .HasColumnType("longtext");
+
                     b.HasKey("id");
 
                     b.ToTable("Users");
