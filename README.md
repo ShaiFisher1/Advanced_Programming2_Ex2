@@ -33,7 +33,7 @@ first command: Add-Migration Init second command: Update-Database
 
 
 ## Instructions
-* In order to log in, if a user is already registered and found (in the database) you can log in, otherwise, register.\
+* In order to log in, if a user is already registered and found (in the database) you can log in, otherwise, register.
 * Running the program leads to the Login screen (run by opening the terminal and then ```npm start```)
 * By entering a correct registered user (found in the DB) with username and password, you will be able to log in.\
   Onced logged in you will be navigated to the Chat screen.
