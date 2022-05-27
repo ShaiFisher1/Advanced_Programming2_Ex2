@@ -27,6 +27,8 @@ You can find the modules installed in package.json -> dependencies. When running
 * Rating page ASP.net needs to run as well - **Rating App folder name: "MyWebApplication"**.
 * **The React App is at another repository - in the link: https://github.com/ShaiFisher1/Advanced_Programming_ex2_react_app.**
 * The domain of the website is set to deafault at "localhost:7170". If the port needs to be changed, then you need to change the variable - "portNumber" in the file "ServerAddress.js" to the wanted port.
+* Remove Migration folder from folder and from "MyWebApplication" "WebApplication1" and and Drop table if exists. Then connect by the following commands:
+* first command: Add-Migration Init seconf command: Update-Database
 * If the domain of thr rating page needs to be changed - then you need to change the variable "ratingAppLink" at row 14 in the file "LoginItem.js".
 
 
