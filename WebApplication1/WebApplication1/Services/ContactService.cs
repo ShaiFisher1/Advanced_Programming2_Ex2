@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace WebApplication1.Services
 {
-    public class ContactService
+    public class ContactService : IContactService
     {
         private readonly WebApplicationContext _context;
 
