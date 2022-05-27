@@ -1,5 +1,5 @@
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
 
 @media (min-width: 768px) {
@@ -9,35 +9,50 @@ html {
 }
 
 html {
-  position: relative;
-  min-height: 100%;
+    min-height: 100%;
 }
 
 body {
-  margin-bottom: 60px;
-}
-
-App-header {
-    background-color: #f2f0ed;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
+    margin-bottom: 60px;
     align-items: center;
-    justify-content: center;
-    font-size: calc(10px + 2vmin);
-    color: white;
 }
 
-App-decor {
-    display: flex;
+.App-decor {
+    margin-top: 0px;
     width: 100%;
-    position: absolute;
     left: 0;
     top: 0;
     color: #ADD8e6;
     background-image: linear-gradient(90deg, #74EBD5 0%, #9FACE6 100%);
     background-color: #ADD8e6;
-    align-items: left;
     display: block;
     height: 180px;
+}
+
+h1 { 
+    color: black;
+}
+
+h4 {
+    color: black;
+}
+
+
+.control-label {
+    color: black;
+}
+
+.outterBlock {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    justify-items: center;
+    align-items: center;
+    border-radius: 30px;
+    background: white;
+    padding: 20px;
+    margin-left: 80px;
+    margin-right: 80px;
+    margin-top: 60px;
+    box-shadow: 0 0.25rem 0.75rem rgb(0 0 0 / 5%);
 }

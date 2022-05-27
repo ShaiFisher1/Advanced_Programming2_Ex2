@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using WebApplication1.Data;
 using WebApplication1.Hubs;
+using WebApplication1.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddTransient<WebApplicationContext>();
@@ -12,7 +13,7 @@ builder.Services.AddSignalR();
 builder.Services.AddControllers();
 // services
 //builder.Services.AddTransient<MessageService>();
-//builder.Services.AddTransient<ContactService>();
+builder.Services.AddTransient<ContactService>();
 //builder.Services.AddTransient<UserService>();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -25,8 +26,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy("Allow All",
         builder =>
         {
-            builder
-            .SetIsOriginAllowed((o) => true).AllowAnyMethod().AllowAnyHeader().AllowCredentials();
+            builder.SetIsOriginAllowed(origin => true).AllowAnyMethod().AllowAnyHeader().AllowCredentials();
         });
 });
 

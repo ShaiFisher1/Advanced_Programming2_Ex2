@@ -1,19 +1,22 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using WebApplication1.Data;
-
+using Microsoft.AspNetCore.SignalR;
+using WebApplication1.Hubs;
 namespace WebApplication1.Controllers
 {
+    
     [Route("api/[controller]")]
     [ApiController]
     public class InvitationsController : ControllerBase
     {
         private readonly WebApplicationContext _context;
+        private readonly IHubContext<WebApplicationHub> _hubContext;
 
-        public InvitationsController(WebApplicationContext context)
+        public InvitationsController(WebApplicationContext context, IHubContext<WebApplicationHub> HubContext)
         {
             _context = context;
+            _hubContext = HubContext;
         }
         public class bodyInvitation
         {
@@ -36,7 +39,7 @@ namespace WebApplication1.Controllers
             Contact newContact = new Contact() { contactid = value.from, username = value.to, name = value.from, server = value.server };
             _context.Contacts.Add(newContact);
             await _context.SaveChangesAsync();
-            //await hubContext.Clients.Group(id).SendAsync("refresh");
+            await _hubContext.Clients.Group(id).SendAsync("refresh");
             return StatusCode(201);
         }
     }

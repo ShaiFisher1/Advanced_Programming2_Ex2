@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "fCHt+YeX8LreaGtNCiRfsYtLTJoiQJSVNRHkwdqPH38=",
+  "Hash": "BrNcaCuwqRN65ma4zrIMOTo6SK73f9GOaJOgrnF15U4=",
   "Source": "MyWebApplication",
   "BasePath": "_content/MyWebApplication",
   "Mode": "Default",
@@ -49,23 +49,6 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "C:\\Projects\\WebApplicationAP2EX2\\Advanced_Programming2_Ex2\\MyWebApplication\\MyWebApplication\\obj\\Debug\\net6.0\\scopedcss\\projectbundle\\MyWebApplication.bundle.scp.css"
-    },
-    {
-      "Identity": "C:\\Projects\\WebApplicationAP2EX2\\Advanced_Programming2_Ex2\\MyWebApplication\\MyWebApplication\\wwwroot\\css\\site - Copy.css",
-      "SourceId": "MyWebApplication",
-      "SourceType": "Discovered",
-      "ContentRoot": "C:\\Projects\\WebApplicationAP2EX2\\Advanced_Programming2_Ex2\\MyWebApplication\\MyWebApplication\\wwwroot\\",
-      "BasePath": "_content/MyWebApplication",
-      "RelativePath": "css/site - Copy.css",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\css\\site - Copy.css"
     },
     {
       "Identity": "C:\\Projects\\WebApplicationAP2EX2\\Advanced_Programming2_Ex2\\MyWebApplication\\MyWebApplication\\wwwroot\\css\\site.css",
