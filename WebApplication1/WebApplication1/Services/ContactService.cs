@@ -46,9 +46,12 @@ namespace WebApplication1.Services
                 var user = await _context.Users.FindAsync(contactid);
                 if (user != null)
                 {
-                    contact = new Contact() { contactid = contactid, username = username, name = name, server = server }; //todo last and lastdate?
-                    _context.Contacts.Add(contact);
-                    await _context.SaveChangesAsync();
+                    if (server == user.server)
+                    {
+                        contact = new Contact() { contactid = contactid, username = username, name = name, server = server }; //todo last and lastdate?
+                        _context.Contacts.Add(contact);
+                        await _context.SaveChangesAsync();
+                    }
                 }
             }
             return contact;

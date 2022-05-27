@@ -1,11 +1,12 @@
-﻿//namespace WebApplication1.Services
-//{
-//    public interface IContactService
-//    {
-//        public Contact get(string id);
-//        public void edit (Contact contact);
-//        public bool delete (string id, string user);
+﻿namespace WebApplication1.Services
+{
+    public interface IContactService
+    {
+        public Task<IEnumerable<Contact>> GetContacts(string username);
+        public Task<Contact> GetContact(string id, string username);
+        public Task SetContact(string contactid, string username, string name, string server);
+        public Task<Contact> AddContact(string contactid, string username, string name, string server);
+        public Task DeleteContact(string contactid, string username);
 
-//        public void add(string id, string username, string service)
-//    }
-//}
+    }
+}
