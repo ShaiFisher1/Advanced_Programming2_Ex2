@@ -1,0 +1,41 @@
+﻿@model MyWebApplication.Models.RankingItem
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h4>Rate our app</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Ranking" class="control-label"></label>
+                <input asp-for="Ranking" class="form-control" />
+                <span asp-validation-for="Ranking" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Feedback" class="control-label"></label>
+                <input asp-for="Feedback" class="form-control" />
+                <span asp-validation-for="Feedback" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" id="button"/>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index" class="btn btn-primary">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,41 @@
+﻿@model MyWebApplication.Models.RankingItem
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2" id="data">
+            @Html.DisplayNameFor(model => model.Ranking)
+        </dt>
+        <dd class = "col-sm-10" id="data">
+            @Html.DisplayFor(model => model.Ranking)
+        </dd>
+        <dt class = "col-sm-2" id="data">
+            @Html.DisplayNameFor(model => model.Feedback)
+        </dt>
+        <dd class = "col-sm-10" id="data">
+            @Html.DisplayFor(model => model.Feedback)
+        </dd>
+        <dt class = "col-sm-2" id="data">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class = "col-sm-10" id="data">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class = "col-sm-2" id="data">
+            @Html.DisplayNameFor(model => model.Time)
+        </dt>
+        <dd class = "col-sm-10" id="data">
+            @Html.DisplayFor(model => model.Time)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-primary" id="button">Edit</a> |
+    <a asp-action="Index" class="btn btn-primary">Back to List</a>
+</div>
