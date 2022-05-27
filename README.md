@@ -25,7 +25,7 @@ You can find the modules installed in package.json -> dependencies. When running
 * our site uses microsoft/signal.
 * Web-Api service needs to run as well - **Web API folder name: "WebApplication1".**
 * Rating page ASP.net needs to run as well - **Rating App folder name: "MyWebApplication"**.
-**The React App is at another repository - in the link: https://github.com/ShaiFisher1/Advanced_Programming_ex2_react_app.**
+* **The React App is at another repository - in the link: https://github.com/ShaiFisher1/Advanced_Programming_ex2_react_app.**
 * The domain of the website is set to deafault at "localhost:7170". If the port needs to be changed, then you need to change the variable - "portNumber" in the file "ServerAddress.js" to the wanted port.
 * If the domain of thr rating page needs to be changed - then you need to change the variable "ratingAppLink" at row 14 in the file "LoginItem.js".
 
