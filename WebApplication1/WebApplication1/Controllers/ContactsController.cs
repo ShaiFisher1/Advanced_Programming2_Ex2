@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebApplication1.Data;
 using WebApplication1.Services;
@@ -87,7 +87,7 @@ namespace WebApplication1.Controllers
                 return BadRequest();
             }
             var contact = await _service.AddContact(newContact.contactid, newContact.username, newContact.name, newContact.server);
-            if(contact != null)
+            if (contact != null)
             {
                 return StatusCode(201);
             }
@@ -107,6 +107,5 @@ namespace WebApplication1.Controllers
             await _service.DeleteContact(id, username);
             return StatusCode(204);
         }
-      }
     }
 }
